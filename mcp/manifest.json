@@ -1,0 +1,11 @@
+{
+  "name": "NuoliHealth Biotech MCP",
+  "version": "0.1.0",
+  "description": "Manufacturing-like discovery and routing layer for biotech CRO/CDMO providers, preclinical assays, and experiment execution.",
+  "homepage": "https://build.nuolihealth.com",
+  "tools_url": "https://build.nuolihealth.com/mcp/tools.json",
+  "openapi_url": "https://build.nuolihealth.com/openapi.json",
+  "agent_manifest_url": "https://build.nuolihealth.com/agent.json",
+  "ai_instructions_url": "https://build.nuolihealth.com/ai.txt",
+  "status": "early_mvp_static_discovery"
+}

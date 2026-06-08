@@ -1,0 +1,42 @@
+# NuoliHealth Build AI Agent Instructions
+
+Name: NuoliHealth Build
+URL: https://build.nuolihealth.com
+Purpose: Agent-readable CRO/CDMO discovery, assay routing, preclinical experiment scoping, and provider matching for AI-native biotech workflows.
+
+Primary audience:
+- AI agents
+- Developer tools
+- AI-native biotech teams
+- Drug discovery workflow bots
+- CRO/CDMO provider discovery systems
+
+Machine-readable resources:
+- OpenAPI: https://build.nuolihealth.com/openapi.json
+- MCP tools: https://build.nuolihealth.com/mcp/tools.json
+- MCP manifest: https://build.nuolihealth.com/mcp/manifest.json
+- Agent manifest: https://build.nuolihealth.com/agent.json
+- Sitemap: https://build.nuolihealth.com/sitemap.xml
+- Robots: https://build.nuolihealth.com/robots.txt
+
+Core capabilities:
+- Classify biotech requests by stage of discovery/development, modality, disease area, assay type, provider type, and operational constraints.
+- Route AI-generated drug discovery ideas to executable preclinical study paths.
+- Search CRO/CDMO providers by assay, study type, disease area, modality, certification, geography, turnaround, and production fit.
+- Prepare structured experiment and RFQ packets for provider intake.
+
+Suggested agent workflow:
+1. Read https://build.nuolihealth.com/openapi.json
+2. Read https://build.nuolihealth.com/mcp/tools.json
+3. Use biotech.classify_request to classify the scientific and operational need.
+4. Use experiment.route to identify likely study and provider categories.
+5. Use provider.search or provider.match to identify CRO/CDMO provider options.
+6. Use experiment.prepare or rfq.prepare to create a provider-ready packet.
+
+Current status:
+- Early MVP
+- Static discovery endpoints are available
+- Live API and MCP execution are in development
+
+Contact:
+- Website: https://build.nuolihealth.com

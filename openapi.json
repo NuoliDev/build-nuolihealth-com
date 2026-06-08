@@ -1,0 +1,70 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "NuoliHealth Build API",
+    "version": "0.1.0",
+    "description": "CRO/CDMO discovery, assay routing, provider matching, and preclinical experiment package preparation for AI-native biotech workflows."
+  },
+  "servers": [
+    {
+      "url": "https://build.nuolihealth.com"
+    }
+  ],
+  "paths": {
+    "/providers/search": {
+      "get": {
+        "summary": "Search CRO and CDMO providers"
+      }
+    },
+    "/providers/{provider_id}": {
+      "get": {
+        "summary": "Get CRO/CDMO provider details"
+      }
+    },
+    "/capabilities": {
+      "get": {
+        "summary": "List biotech provider capabilities"
+      }
+    },
+    "/assays": {
+      "get": {
+        "summary": "List assay and study types"
+      }
+    },
+    "/disease-areas": {
+      "get": {
+        "summary": "List disease areas supported by indexed providers"
+      }
+    },
+    "/modalities": {
+      "get": {
+        "summary": "List therapeutic modalities and platform types"
+      }
+    },
+    "/biotech/classify-request": {
+      "post": {
+        "summary": "Classify a biotech request by stage, modality, assay need, and provider type"
+      }
+    },
+    "/experiment/route": {
+      "post": {
+        "summary": "Route a biotech hypothesis or experimental need to CRO/CDMO execution paths"
+      }
+    },
+    "/provider/match": {
+      "post": {
+        "summary": "Match a project to CRO/CDMO providers"
+      }
+    },
+    "/experiment/prepare": {
+      "post": {
+        "summary": "Prepare an experiment or study work packet"
+      }
+    },
+    "/rfq/prepare": {
+      "post": {
+        "summary": "Prepare a CRO/CDMO RFQ package"
+      }
+    }
+  }
+}

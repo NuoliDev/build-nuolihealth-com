@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://build.nuolihealth.com/</loc>
+  </url>
+
+  <url>
+    <loc>https://build.nuolihealth.com/openapi.json</loc>
+  </url>
+
+  <url>
+    <loc>https://build.nuolihealth.com/mcp/tools.json</loc>
+  </url>
+
+  <url>
+    <loc>https://build.nuolihealth.com/mcp/manifest.json</loc>
+  </url>
+
+  <url>
+    <loc>https://build.nuolihealth.com/agent.json</loc>
+  </url>
+
+  <url>
+    <loc>https://build.nuolihealth.com/ai.txt</loc>
+  </url>
+
+</urlset>

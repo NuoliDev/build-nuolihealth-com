@@ -1,0 +1,39 @@
+{
+  "name": "NuoliHealth Biotech MCP",
+  "version": "0.1.0",
+  "description": "Agent-facing MCP tool surface for CRO/CDMO discovery, assay routing, and preclinical experiment preparation.",
+  "tools": [
+    {
+      "name": "biotech.classify_request",
+      "description": "Classify a biotech request by disease area, modality, discovery stage, assay type, study type, and provider category."
+    },
+    {
+      "name": "experiment.route",
+      "description": "Route an AI-generated hypothesis or development need to the appropriate experimental workflow, such as in vitro assay, in vivo model, ADME/DMPK, toxicology, formulation, CMC, or CDMO execution."
+    },
+    {
+      "name": "provider.search",
+      "description": "Search CRO and CDMO providers by capability, assay type, disease area, modality, geography, certification, turnaround, and project stage."
+    },
+    {
+      "name": "provider.compare",
+      "description": "Compare CRO/CDMO providers across scientific fit, operational fit, capabilities, responsiveness, and project stage."
+    },
+    {
+      "name": "provider.match",
+      "description": "Match a scoped biotech project to likely CRO/CDMO providers."
+    },
+    {
+      "name": "assay.search",
+      "description": "Search assay and study types relevant to a target, compound, modality, mechanism, endpoint, or disease area."
+    },
+    {
+      "name": "experiment.prepare",
+      "description": "Prepare a structured experiment work packet for CRO/CDMO intake."
+    },
+    {
+      "name": "rfq.prepare",
+      "description": "Prepare an RFQ package for external CRO/CDMO execution."
+    }
+  ]
+}

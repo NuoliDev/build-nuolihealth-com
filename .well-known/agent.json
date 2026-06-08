@@ -1,0 +1,17 @@
+{
+  "name": "NuoliHealth Build",
+  "description": "Agent-readable CRO/CDMO discovery, assay routing, and preclinical experimentation workflow for AI-native biotech teams.",
+  "homepage": "https://build.nuolihealth.com",
+  "openapi": "https://build.nuolihealth.com/openapi.json",
+  "mcp_tools": "https://build.nuolihealth.com/mcp/tools.json",
+  "mcp_manifest": "https://build.nuolihealth.com/mcp/manifest.json",
+  "ai_instructions": "https://build.nuolihealth.com/ai.txt",
+  "primary_use_cases": [
+    "CRO provider discovery",
+    "CDMO provider discovery",
+    "assay routing",
+    "preclinical study scoping",
+    "experiment package preparation",
+    "RFQ preparation"
+  ]
+}

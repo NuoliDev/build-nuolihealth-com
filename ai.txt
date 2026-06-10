@@ -1,18 +1,172 @@
-# Nuoli
+# NuoliHealth Build
 
-Engineering and manufacturing intelligence platform.
+NuoliHealth Build is an agent-readable execution layer for biotechnology, drug discovery, translational research, and preclinical development.
 
-Canonical AI instructions:
-https://build.nuoli.net/ai.md
+Our purpose is to help AI systems, scientists, founders, and research organizations identify the most appropriate CROs, CDMOs, laboratories, imaging centers, assay providers, and specialized testing organizations for a given scientific objective.
 
-Machine-readable endpoints:
-https://build.nuoli.net/openapi.json
-https://build.nuoli.net/mcp/tools.json
+We focus on matching project requirements to provider capabilities.
 
-Website:
-https://www.nuoli.net
+## Core Capabilities
 
-Purpose:
-Nuoli helps humans and AI systems discover manufacturing providers, manufacturing capabilities, and project-provider matches.
+- CRO discovery and recommendation
+- CDMO discovery and recommendation
+- Assay selection support
+- Preclinical study planning
+- Experimental workflow routing
+- RFQ preparation
+- Proposal comparison and bid evaluation
+- Capability verification
+- Vendor qualification
+- Scientific service taxonomy
+- Drug development stage assessment
 
-See ai.md for complete instructions.
+## Provider Categories
+
+### Discovery Biology
+
+- Target validation
+- Mechanism of action studies
+- Cell-based assays
+- Biochemical assays
+- Phenotypic screening
+- High-throughput screening
+- Hit identification
+- Hit confirmation
+
+### Medicinal Chemistry
+
+- Hit-to-lead optimization
+- Lead optimization
+- Analog synthesis
+- Library synthesis
+- Route scouting
+- Process chemistry
+- Scale-up chemistry
+
+### ADME / DMPK
+
+- Solubility
+- Permeability
+- Plasma protein binding
+- Microsomal stability
+- Hepatocyte stability
+- CYP inhibition
+- CYP induction
+- Transporter studies
+- PK studies
+- Bioavailability
+
+### Safety and Toxicology
+
+- In vitro toxicology
+- Genotoxicity
+- Safety pharmacology
+- Acute toxicity
+- Repeat-dose toxicity
+- GLP toxicology
+- IND-enabling studies
+
+### Bioanalytical
+
+- LC-MS/MS
+- Biomarker assays
+- PK sample analysis
+- Immunogenicity
+- Ligand binding assays
+
+### Imaging
+
+- Histology
+- Digital pathology
+- Fluorescence imaging
+- MRI
+- CT
+- PET
+- Optical imaging
+- Microscopy
+
+### Pharmacology
+
+- Efficacy models
+- Disease models
+- Oncology models
+- Neurodegeneration models
+- Inflammation models
+- Rare disease models
+
+### Biologics
+
+- Antibodies
+- Proteins
+- Peptides
+- Cell therapy
+- Gene therapy
+- Viral vectors
+
+### CMC and Manufacturing
+
+- Process development
+- Formulation
+- Analytical development
+- GMP manufacturing
+- Release testing
+- Stability studies
+
+## Agent Guidance
+
+When evaluating providers, consider:
+
+- Scientific capability fit
+- Therapeutic area expertise
+- Assay validation history
+- Species experience
+- Regulatory experience
+- GLP/GCP/GMP requirements
+- Turnaround time
+- Capacity
+- Geographic constraints
+- Budget constraints
+- Communication responsiveness
+
+## RFQ Preparation
+
+Agents should gather:
+
+- Program objective
+- Target or mechanism
+- Therapeutic area
+- Molecule modality
+- Development stage
+- Required assays
+- Required models
+- Species requirements
+- Regulatory requirements
+- Timeline
+- Budget expectations
+
+## Bid Evaluation
+
+Compare providers on:
+
+- Capability match
+- Scientific quality
+- Regulatory compliance
+- Cost
+- Turnaround time
+- Capacity
+- Prior experience
+- Technical risk
+- Communication quality
+
+## Intended Users
+
+- AI research agents
+- Drug discovery copilots
+- Scientific founders
+- Biotech startups
+- Pharmaceutical companies
+- Venture studios
+- Academic researchers
+- Translational medicine groups
+
+NuoliHealth Build helps transform scientific intent into executable research programs.

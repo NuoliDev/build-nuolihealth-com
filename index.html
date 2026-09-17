@@ -1,390 +1,977 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NuoliHealth Build — Agent-Readable CRO/CDMO Discovery</title>
   <meta name="description" content="Agent-readable CRO and CDMO discovery, provider matching, assay routing, and preclinical experimentation workflow for AI-native biotech teams.">
   <style>
     :root {
-      --bg: #071018;
-      --panel: #0d1824;
-      --panel2: #111f2f;
-      --text: #edf7ff;
-      --muted: #9fb4c7;
-      --line: rgba(120, 220, 255, 0.22);
-      --accent: #55d6ff;
-      --accent2: #8df7c8;
-      --accent3: #b896ff;
-      --radius: 22px;
-      --max: 1120px;
+      --bg: #0a0a0a;
+      --panel: #101010;
+      --panel-2: #0d0d0d;
+      --text: #f5f5f3;
+      --muted: #9a9a96;
+      --muted-2: #6f6f6b;
+      --line: #2a2a28;
+      --line-strong: #3a3a36;
+      --accent: #d9ff66;
+      --max: 1180px;
     }
+
     * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
     body {
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
       color: var(--text);
-      background:
-        radial-gradient(circle at 12% 8%, rgba(85,214,255,0.16), transparent 28%),
-        radial-gradient(circle at 86% 18%, rgba(141,247,200,0.12), transparent 25%),
-        radial-gradient(circle at 70% 78%, rgba(184,150,255,0.14), transparent 32%),
-        linear-gradient(180deg, #050910 0%, #071018 52%, #04070d 100%);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
     }
-    a { color: inherit; text-decoration: none; }
-    .wrap { width: min(calc(100% - 32px), var(--max)); margin: 0 auto; }
-    header {
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      background: rgba(5, 9, 16, 0.72);
-      backdrop-filter: blur(14px);
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .page {
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px),
+        var(--bg);
+      background-size: 48px 48px;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    /* NAV */
+    .nav {
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 50;
+      background: rgba(10,10,10,.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
     }
-    .nav {
+
+    .nav-inner {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .brand::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* TYPOGRAPHY */
+    .eyebrow,
+    .section-label,
+    .meta-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.2;
+      font-weight: 650;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      padding: 92px 0 72px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 44px;
+      align-items: start;
+    }
+
+    .hero-index {
+      padding-top: 10px;
+      color: var(--muted-2);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .12em;
+    }
+
+    .hero h1 {
+      margin: 16px 0 0;
+      max-width: 1000px;
+      font-size: clamp(46px, 7vw, 92px);
+      line-height: .94;
+      letter-spacing: -.055em;
+      font-weight: 560;
+    }
+
+    .hero-copy {
+      margin: 28px 0 0;
+      max-width: 760px;
+      color: #c9c9c5;
+      font-size: clamp(17px, 1.8vw, 22px);
+      line-height: 1.45;
+    }
+
+    /* GENERIC SECTION */
+    section {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-shell {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 44px;
+      padding: 72px 0;
+    }
+
+    .section-number {
+      color: var(--muted-2);
+      font-size: 12px;
+      letter-spacing: .12em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .section-head {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 18px 0;
-      gap: 18px;
+      gap: 30px;
+      margin-bottom: 28px;
+      align-items: end;
     }
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: 0.01em; }
-    .mark {
-      width: 15px; height: 15px; border-radius: 5px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
-      box-shadow: 0 0 24px rgba(85,214,255,0.45);
-    }
-    .links { display: flex; flex-wrap: wrap; gap: 18px; color: var(--muted); font-size: 0.94rem; }
-    .links a:hover { color: var(--text); }
-    .hero { padding: 64px 0 32px; }
-    .grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 22px; align-items: stretch; }
-    .card {
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(17,31,47,0.92), rgba(9,18,29,0.86));
-      box-shadow: 0 18px 55px rgba(0,0,0,0.28);
-      overflow: hidden;
-    }
-    .hero-card { padding: 36px; min-height: 500px; display: flex; flex-direction: column; justify-content: center; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 10px; align-self: flex-start;
-      color: #dff8ff; border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.04); padding: 8px 12px; border-radius: 999px;
-      text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem; margin-bottom: 20px;
-    }
-    .dot { width: 8px; height: 8px; border-radius: 99px; background: var(--accent2); box-shadow: 0 0 16px var(--accent2); }
-    h1, h2, h3 { margin: 0; letter-spacing: -0.035em; line-height: 1.05; }
-    h1 { font-size: clamp(2.7rem, 7vw, 5.4rem); max-width: 12ch; }
-    h2 { font-size: clamp(2rem, 4vw, 3.1rem); }
-    h3 { font-size: 1.2rem; margin-bottom: 8px; }
-    p { color: var(--muted); line-height: 1.65; }
-    .hero-card p { font-size: 1.07rem; max-width: 60ch; margin-top: 22px; }
-    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; padding: 12px 16px;
-      border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; font-weight: 700;
-      background: rgba(255,255,255,0.04);
-    }
-    .btn.primary { background: linear-gradient(135deg, rgba(85,214,255,0.18), rgba(141,247,200,0.16)); }
-    .visual { padding: 22px; min-height: 500px; display: grid; gap: 14px; }
-    .step {
-      padding: 18px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(4,9,16,0.58); display: grid; grid-template-columns: 54px 1fr; gap: 14px; align-items: center;
-    }
-    .num {
-      width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; font-weight: 900;
-      background: linear-gradient(135deg, rgba(85,214,255,0.18), rgba(184,150,255,0.18));
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .small { color: var(--muted); line-height: 1.5; font-size: 0.92rem; }
-    section { padding: 30px 0; }
-    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 18px; }
-    .section-head p { max-width: 58ch; margin: 0; }
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .mini { padding: 22px; }
-    .tag {
-      color: #e8fbff; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.08em;
-      margin-bottom: 12px; display: inline-block;
-    }
-    ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 9px; color: #dcecff; }
-    li { display: grid; grid-template-columns: 12px 1fr; gap: 9px; line-height: 1.45; }
-    li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); margin-top: 8px; }
-    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .metric { padding: 20px; text-align: center; }
-    .metric strong { display: block; font-size: 2rem; margin-bottom: 6px; }
-    .code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      color: #daf7ff; background: rgba(0,0,0,0.28); border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 18px; padding: 18px; overflow-x: auto; line-height: 1.55;
-    }
-    footer { padding: 38px 0; color: var(--muted); border-top: 1px solid rgba(255,255,255,0.08); margin-top: 30px; }
-    @media (max-width: 900px) {
-      .grid, .cards, .metrics, .section-head { grid-template-columns: 1fr; display: grid; align-items: start; }
-      .hero-card, .visual { min-height: auto; }
-      .links { display: none; }
-    }
-  </style>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": "https://build.nuolihealth.com/#organization",
-        "name": "NuoliHealth",
-        "url": "https://build.nuolihealth.com"
-      },
-      {
-        "@type": "SoftwareApplication",
-        "@id": "https://build.nuolihealth.com/#software",
-        "name": "NuoliHealth Build",
-        "applicationCategory": "BusinessApplication",
-        "applicationSubCategory": "Biotech CRO/CDMO Discovery and Experiment Routing",
-        "description": "Agent-readable CRO and CDMO discovery, provider matching, assay routing, and preclinical experimentation workflow for AI-native biotech teams.",
-        "operatingSystem": "Web",
-        "url": "https://build.nuolihealth.com",
-        "provider": {
-          "@id": "https://build.nuolihealth.com/#organization"
-        },
-        "audience": {
-          "@type": "Audience",
-          "audienceType": [
-            "AI agents",
-            "developer tools",
-            "AI-native biotech teams",
-            "drug discovery teams",
-            "CROs",
-            "CDMOs",
-            "preclinical operations teams"
-          ]
-        },
-        "keywords": [
-          "CRO discovery",
-          "CDMO discovery",
-          "AI drug discovery",
-          "preclinical research",
-          "assay provider matching",
-          "biological assays",
-          "in vitro assays",
-          "in vivo studies",
-          "ADME",
-          "DMPK",
-          "toxicology",
-          "pharmacology",
-          "biomarker assays",
-          "cell-based assays",
-          "protein assays",
-          "drug development",
-          "experiment routing",
-          "biotech provider matching",
-          "agentic biotech"
-        ]
-      },
-      {
-        "@type": "WebAPI",
-        "@id": "https://build.nuolihealth.com/#api",
-        "name": "NuoliHealth Build API",
-        "url": "https://build.nuolihealth.com/openapi.json",
-        "description": "API contract for CRO/CDMO discovery, assay routing, provider matching, and experiment package preparation."
-      },
-      {
-        "@type": "Service",
-        "@id": "https://build.nuolihealth.com/#service",
-        "name": "CRO/CDMO Discovery and Experiment Routing",
-        "url": "https://build.nuolihealth.com",
-        "description": "Agent-facing service for routing AI-generated biotech hypotheses into CRO/CDMO-ready experimental work."
+    .section-head h2 {
+      margin: 8px 0 0;
+      font-size: clamp(30px, 4vw, 54px);
+      line-height: 1;
+      letter-spacing: -.04em;
+      font-weight: 560;
+    }
+
+    /* CONTACT */
+    .contact-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr);
+      border: 1px solid var(--line-strong);
+      background: rgba(16,16,16,.9);
+    }
+
+    .contact-intro,
+    .contact-details {
+      padding: 30px;
+    }
+
+    .contact-intro {
+      min-height: 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--line);
+    }
+
+    .contact-intro h3 {
+      margin: 0;
+      max-width: 540px;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1;
+      letter-spacing: -.04em;
+      font-weight: 560;
+    }
+
+    .contact-intro p {
+      margin: 18px 0 0;
+      max-width: 58ch;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .contact-next {
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .contact-next p:last-child {
+      color: var(--text);
+      margin-top: 8px;
+    }
+
+    .contact-details {
+      display: grid;
+      align-content: start;
+      gap: 0;
+    }
+
+    .detail-row {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .detail-row:first-child {
+      padding-top: 0;
+    }
+
+    .detail-row:last-child {
+      border-bottom: 0;
+    }
+
+    .detail-row strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-weight: 650;
+    }
+
+    .detail-row a,
+    .detail-row span {
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .detail-row a:hover {
+      color: var(--accent);
+    }
+
+    /* TEAM */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid var(--line-strong);
+      border-left: 1px solid var(--line-strong);
+    }
+
+    .team-card {
+      border-right: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+      background: rgba(13,13,13,.92);
+    }
+
+    .portrait-wrap {
+      position: relative;
+      background: #141414;
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+    }
+
+    .portrait-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 55%, rgba(0,0,0,.25));
+      pointer-events: none;
+    }
+
+    .team-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%) contrast(1.03);
+    }
+
+    .team-copy {
+      padding: 24px;
+    }
+
+    .team-copy h3 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.05;
+      letter-spacing: -.025em;
+      font-weight: 560;
+    }
+
+    .role {
+      margin: 7px 0 20px;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .bio-placeholder {
+      margin: 0;
+      color: #b9b9b4;
+      font-size: 14px;
+      line-height: 1.58;
+    }
+
+    .training-copy {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .training-copy p:last-child {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    /* PARTNERS */
+    .partner-card {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 40px;
+      align-items: center;
+      border: 1px solid var(--line-strong);
+      background: rgba(16,16,16,.9);
+      padding: 30px;
+    }
+
+    .partner-card h3 {
+      margin: 10px 0 0;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1;
+      letter-spacing: -.035em;
+      font-weight: 560;
+    }
+
+    .partner-copy {
+      margin: 18px 0 0;
+      max-width: 650px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .partner-logo {
+      border-left: 1px solid var(--line);
+      min-height: 160px;
+      padding-left: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .partner-logo img {
+      max-width: 260px;
+      max-height: 100px;
+      object-fit: contain;
+      filter: grayscale(100%) brightness(1.8);
+    }
+
+    footer {
+      padding: 30px 0 38px;
+      color: var(--muted-2);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        width: min(var(--max), calc(100% - 32px));
       }
-    ]
-  }
-  </script>
+
+      .hero-grid,
+      .section-shell {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .hero {
+        padding: 70px 0 52px;
+      }
+
+      .hero-index,
+      .section-number {
+        display: none;
+      }
+
+      .section-shell {
+        padding: 54px 0;
+      }
+
+      .contact-card,
+      .team-grid,
+      .partner-card {
+        grid-template-columns: 1fr;
+      }
+
+      .team-grid {
+        display: grid;
+      }
+
+      .contact-intro {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        min-height: 0;
+      }
+
+      .partner-logo {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+        padding: 28px 0 0;
+        min-height: 0;
+        justify-content: flex-start;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+  
+
+    /* INDEX PAGE EXTENSIONS */
+    .hero {
+      padding: 92px 0 72px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(340px, .9fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-card,
+    .visual,
+    .mini,
+    .metric,
+    .resource-card {
+      border: 1px solid var(--line-strong);
+      background: rgba(16,16,16,.92);
+    }
+
+    .hero-card {
+      min-height: 500px;
+      padding: 38px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-card h1 {
+      margin: 18px 0 0;
+      max-width: 11ch;
+      font-size: clamp(46px, 7vw, 86px);
+      line-height: .95;
+      letter-spacing: -.055em;
+      font-weight: 560;
+    }
+
+    .hero-card p {
+      margin: 26px 0 0;
+      max-width: 64ch;
+      color: #c9c9c5;
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .eyebrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      align-self: flex-start;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow-pill .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 14px;
+      border: 1px solid var(--line-strong);
+      background: #0d0d0d;
+      color: var(--text);
+      font-size: 12px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .btn.primary {
+      background: var(--text);
+      color: #0a0a0a;
+      border-color: var(--text);
+    }
+
+    .btn:hover {
+      border-color: var(--muted);
+    }
+
+    .visual {
+      padding: 20px;
+      display: grid;
+      gap: 0;
+      min-height: 500px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 18px;
+      align-items: center;
+      padding: 22px 4px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .step:last-child { border-bottom: 0; }
+
+    .num {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      letter-spacing: .08em;
+    }
+
+    .step h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      font-weight: 560;
+      letter-spacing: -.02em;
+    }
+
+    .small {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 13px;
+    }
+
+    .content-section {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .content-shell {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 44px;
+      padding: 72px 0;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid var(--line-strong);
+      border-left: 1px solid var(--line-strong);
+    }
+
+    .mini {
+      padding: 24px;
+      border-right: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .mini h3 {
+      margin: 6px 0 10px;
+      font-size: 21px;
+      font-weight: 560;
+      letter-spacing: -.02em;
+    }
+
+    .mini p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 650;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+      display: grid;
+      gap: 9px;
+    }
+
+    li {
+      display: grid;
+      grid-template-columns: 10px 1fr;
+      gap: 9px;
+      color: #d7d7d2;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    li::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      background: var(--accent);
+      margin-top: 8px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line-strong);
+      border-left: 1px solid var(--line-strong);
+    }
+
+    .metric {
+      padding: 26px 18px;
+      text-align: left;
+      border-right: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 24px;
+      font-weight: 560;
+      letter-spacing: -.02em;
+    }
+
+    .code {
+      padding: 22px;
+      border: 1px solid var(--line-strong);
+      background: #0d0d0d;
+      color: #d9d9d5;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+
+    .resource-card {
+      padding: 28px;
+    }
+
+    .resource-card h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 560;
+      letter-spacing: -.035em;
+    }
+
+    .resource-card ul {
+      margin-top: 22px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 28px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-layout,
+      .content-shell,
+      .cards,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .content-shell {
+        gap: 18px;
+        padding: 54px 0;
+      }
+
+      .hero-card,
+      .visual {
+        min-height: auto;
+      }
+
+      .section-number {
+        display: none;
+      }
+
+      .resource-card ul {
+        grid-template-columns: 1fr;
+      }
+    }
+</style>
 </head>
 <body>
-  <header>
-    <div class="wrap nav">
-      <a class="brand" href="index.html">
-        <span class="mark"></span>
-        <span data-editor-id="ed-0">Nuoli Health</span>
-      </a>
-      <nav class="links" aria-label="Primary">
-        <a href="contact.html">About</a>
-        <a href="contact.html">Contact Us</a>
-      </nav>
-    </div>
-  </header>
-  <main>
-    <section class="hero">
-      <div class="wrap grid">
-        <div class="card hero-card">
-          <div class="eyebrow"><span class="dot"></span><span><span data-editor-id="ed-1">DRUG DISCOVERY AND VALIDATION for AGENTIC AI</span></span></div>
-          <h1><span data-editor-id="ed-2">Software for AI to operate in biopharma</span></h1>
-          <p><span data-editor-id="ed-3">
-            Nuoli Health build routing tools and intelligence for bots, agents, and drug developers to turn AI-generated biotech ideas into executable
-            preclinical work: assay selection, CRO/CDMO provider matching, experiment scoping, and RFQ-ready work packets.
-          </span></p>
-          <div class="actions">
-            <a class="btn primary" href="/openapi.json"><span data-editor-id="ed-4">Read OpenAPI</span></a>
-            <a class="btn" href="/mcp/tools.json"><span data-editor-id="ed-5">View MCP Tools</span></a>
-            <a class="btn" href="/ai.txt"><span data-editor-id="ed-6">AI Agent Instructions</span></a>
-          </div>
-        </div>
+  <div class="page">
 
-        <div class="card visual">
-          <div class="step">
-            <div class="num"><span data-editor-id="ed-7">1</span></div>
-            <div>
-              <h3><span data-editor-id="ed-8">Specify your request</span></h3>
-              <div class="small"><span data-editor-id="ed-9">Identify modality, disease area, discovery stage, study type, assay needs, and execution constraints.</span></div>
+    <nav class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="index.html">Nuoli Health</a>
+        <div class="nav-links">
+          <a href="contact.html">About</a>
+          <a href="contact.html">Contact Us</a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-layout">
+          <div class="hero-card">
+            <div class="eyebrow-pill">
+              <span class="dot"></span>
+              <span>Drug Discovery and Validation for Agentic AI</span>
+            </div>
+            <h1>Software for AI to operate in biopharma</h1>
+            <p>
+              Nuoli Health builds routing tools and intelligence for bots, agents, and drug developers to turn AI-generated biotech ideas into executable
+              preclinical work: assay selection, CRO/CDMO provider matching, experiment scoping, and RFQ-ready work packets.
+            </p>
+            <div class="actions">
+              <a class="btn primary" href="/openapi.json">Read OpenAPI</a>
+              <a class="btn" href="/mcp/tools.json">View MCP Tools</a>
+              <a class="btn" href="/ai.txt">AI Agent Instructions</a>
             </div>
           </div>
-          <div class="step">
-            <div class="num"><span data-editor-id="ed-10">2</span></div>
-            <div>
-              <h3><span data-editor-id="ed-11">Intelligently orchestrate next steps</span></h3>
-              <div class="small"><span data-editor-id="ed-12">Map the request to in vitro, in vivo, ADME/DMPK, toxicology, formulation, CMC, or other provider categories.</span></div>
+
+          <div class="visual">
+            <div class="step">
+              <div class="num">01</div>
+              <div>
+                <h3>Specify your request</h3>
+                <div class="small">Identify modality, disease area, discovery stage, study type, assay needs, and execution constraints.</div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="num">02</div>
+              <div>
+                <h3>Intelligently orchestrate next steps</h3>
+                <div class="small">Map the request to in vitro, in vivo, ADME/DMPK, toxicology, formulation, CMC, or other provider categories.</div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="num">03</div>
+              <div>
+                <h3>Match CRO/CDMO providers</h3>
+                <div class="small">Search by assay type, disease area, modality, certification, geography, turnaround, and production fit.</div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="num">04</div>
+              <div>
+                <h3>Prepare experiment packet</h3>
+                <div class="small">Generate structured work packets that providers can intake, quote, and execute.</div>
+              </div>
             </div>
           </div>
-          <div class="step">
-            <div class="num"><span data-editor-id="ed-13">3</span></div>
-            <div>
-              <h3><span data-editor-id="ed-14">Match CRO/CDMO providers</span></h3>
-              <div class="small"><span data-editor-id="ed-15">Search by assay type, disease area, modality, certification, geography, turnaround, and production fit.</span></div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="container content-shell">
+          <div class="section-number">01</div>
+          <div>
+            <div class="section-head">
+              <div>
+                <p class="section-label">Agent Infrastructure</p>
+                <h2>Machine-readable discovery workflow</h2>
+              </div>
+              <p class="partner-copy">Build.nuolihealth.com is intentionally optimized for long-running agents and developers, not broad consumer traffic. The primary outputs are API contracts, MCP tool descriptions, agent manifests, and structured metadata.</p>
+            </div>
+
+            <div class="cards">
+              <article class="mini">
+                <span class="tag">OpenAPI</span>
+                <h3>API contract</h3>
+                <p>Endpoints for search, assay routing, experiment package preparation, and CRO/CDMO matching endpoints.</p>
+                <ul><li><a href="/openapi.json">/openapi.json</a></li></ul>
+              </article>
+
+              <article class="mini">
+                <span class="tag">MCP</span>
+                <h3>Tool registry</h3>
+                <p>Agent-facing tool list for classifying biotech requests, finding providers, and preparing experimental work.</p>
+                <ul>
+                  <li><a href="/mcp/tools.json">/mcp/tools.json</a></li>
+                  <li><a href="/mcp/manifest.json">/mcp/manifest.json</a></li>
+                </ul>
+              </article>
+
+              <article class="mini">
+                <span class="tag">Agent Metadata</span>
+                <h3>Discovery hints</h3>
+                <p>Plain-language and JSON manifests for crawlers, agents, and developer tooling.</p>
+                <ul>
+                  <li><a href="/agent.json">/agent.json</a></li>
+                  <li><a href="/ai.txt">/ai.txt</a></li>
+                </ul>
+              </article>
             </div>
           </div>
-          <div class="step">
-            <div class="num"><span data-editor-id="ed-16">4</span></div>
-            <div>
-              <h3><span data-editor-id="ed-17">Prepare experiment packet</span></h3>
-              <div class="small"><span data-editor-id="ed-18">Generate structured work packets that providers can intake, quote, and execute.</span></div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="container content-shell">
+          <div class="section-number">02</div>
+          <div>
+            <div class="section-head">
+              <div>
+                <p class="section-label">Routing Dimensions</p>
+                <h2>Biotech routing dimensions</h2>
+              </div>
+              <p class="partner-copy">NuoliHealth builds the rails needed for AI to quickly and accurately traverse scientific, operational, and provider interactions.</p>
+            </div>
+
+            <div class="cards">
+              <article class="mini">
+                <span class="tag">Discovery Stage</span>
+                <h3>From idea to IND-enabling</h3>
+                <ul>
+                  <li>Target validation</li>
+                  <li>Hit finding and lead optimization</li>
+                  <li>Mechanism-of-action studies</li>
+                  <li>Preclinical candidate profiling</li>
+                  <li>IND-enabling studies</li>
+                </ul>
+              </article>
+
+              <article class="mini">
+                <span class="tag">Assay + Study Type</span>
+                <h3>Experimental fit</h3>
+                <ul>
+                  <li>Cell-based assays</li>
+                  <li>Biochemical and protein assays</li>
+                  <li>ADME/DMPK</li>
+                  <li>In vivo efficacy models</li>
+                  <li>Toxicology and safety pharmacology</li>
+                </ul>
+              </article>
+
+              <article class="mini">
+                <span class="tag">Provider Type</span>
+                <h3>CRO/CDMO matching</h3>
+                <ul>
+                  <li>Specialized biology CROs</li>
+                  <li>Medicinal chemistry CROs</li>
+                  <li>Preclinical in vivo CROs</li>
+                  <li>Analytical and bioanalytical labs</li>
+                  <li>Formulation, CMC, and CDMO partners</li>
+                </ul>
+              </article>
             </div>
           </div>
         </div>
+      </section>
+
+      <section class="content-section">
+        <div class="container content-shell">
+          <div class="section-number">03</div>
+          <div>
+            <div class="metrics">
+              <div class="metric"><strong>Library</strong><span class="small">Static discovery endpoints</span></div>
+              <div class="metric"><strong>API</strong><span class="small">Contract-first design</span></div>
+              <div class="metric"><strong>MCP</strong><span class="small">Agent tool surface</span></div>
+              <div class="metric"><strong>CRO/CDMO</strong><span class="small">Provider matching focus</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="container content-shell">
+          <div class="section-number">04</div>
+          <div>
+            <span class="tag">Example Agent Task</span>
+            <div class="code">Find CROs for alpha-synuclein Parkinson's disease assays using SH-SY5Y cells, PFF seeding, neurite toxicity endpoints, and follow-on ADME/DMPK provider options for lead optimization.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="container content-shell">
+          <div class="section-number">05</div>
+          <div class="resource-card">
+            <p class="section-label">Resources</p>
+            <h2>Machine Readable Resources</h2>
+            <ul>
+              <li><a href="/openapi.json">OpenAPI Specification</a></li>
+              <li><a href="/mcp/tools.json">MCP Tools</a></li>
+              <li><a href="/mcp/manifest.json">MCP Manifest</a></li>
+              <li><a href="/agent.json">Agent Manifest</a></li>
+              <li><a href="/ai.txt">AI Instructions</a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <span>© 2026 NuoliHealth</span>
+        <span>Agent-readable CRO/CDMO discovery and preclinical experimentation routing.</span>
       </div>
-    </section>
+    </footer>
 
-    <section>
-      <div class="wrap">
-        <div class="section-head">
-          <h2><span data-editor-id="ed-19">Machine-readable discovery workflow</span></h2>
-          <p><span data-editor-id="ed-20">Build.nuolihealth.com is intentionally optimized for long-running agents and developers, not broad consumer traffic.
-            The primary outputs are API contracts, MCP tool descriptions, agent manifests, and structured metadata.
-          </span></p>
-        </div>
-        <div class="cards">
-          <article class="card mini">
-            <span class="tag"><span data-editor-id="ed-21">OpenAPI</span></span>
-            <h3><span data-editor-id="ed-22">API contract</span></h3>
-            <p><span data-editor-id="ed-23">Endpoints for search, assay routing, experiment package preparation, and CRO/CDMO matching endpoints.</span></p>
-            <ul>
-              <li><a href="/openapi.json"><span data-editor-id="ed-24">/openapi.json</span></a></li>
-            </ul>
-          </article>
-          <article class="card mini">
-            <span class="tag"><span data-editor-id="ed-25">MCP</span></span>
-            <h3><span data-editor-id="ed-26">Tool registry</span></h3>
-            <p><span data-editor-id="ed-27">Agent-facing tool list for classifying biotech requests, finding providers, and preparing experimental work.</span></p>
-            <ul>
-              <li><a href="/mcp/tools.json"><span data-editor-id="ed-28">/mcp/tools.json</span></a></li>
-              <li><a href="/mcp/manifest.json"><span data-editor-id="ed-29">/mcp/manifest.json</span></a></li>
-            </ul>
-          </article>
-          <article class="card mini">
-            <span class="tag"><span data-editor-id="ed-30">Agent Metadata</span></span>
-            <h3><span data-editor-id="ed-31">Discovery hints</span></h3>
-            <p><span data-editor-id="ed-32">Plain-language and JSON manifests for crawlers, agents, and developer tooling.</span></p>
-            <ul>
-              <li><a href="/agent.json"><span data-editor-id="ed-33">/agent.json</span></a></li>
-              <li><a href="/ai.txt"><span data-editor-id="ed-34">/ai.txt</span></a></li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="wrap">
-        <div class="section-head">
-          <h2><span data-editor-id="ed-35">Biotech routing dimensions</span></h2>
-          <p><span data-editor-id="ed-36">
-            NuoliHealth builds the rails needed for AI to quickly and accurately traverse scientific, operational, and provider interactions.</span></p>
-        </div>
-        <div class="cards">
-          <article class="card mini">
-            <span class="tag"><span data-editor-id="ed-37">Discovery Stage</span></span>
-            <h3><span data-editor-id="ed-38">From idea to IND-enabling</span></h3>
-            <ul>
-              <li><span data-editor-id="ed-39">Target validation</span></li>
-              <li><span data-editor-id="ed-40">Hit finding and lead optimization</span></li>
-              <li><span data-editor-id="ed-41">Mechanism-of-action studies</span></li>
-              <li><span data-editor-id="ed-42">Preclinical candidate profiling</span></li>
-              <li><span data-editor-id="ed-43">IND-enabling studies</span></li>
-            </ul>
-          </article>
-          <article class="card mini">
-            <span class="tag"><span data-editor-id="ed-44">Assay + Study Type</span></span>
-            <h3><span data-editor-id="ed-45">Experimental fit</span></h3>
-            <ul>
-              <li><span data-editor-id="ed-46">Cell-based assays</span></li>
-              <li><span data-editor-id="ed-47">Biochemical and protein assays</span></li>
-              <li><span data-editor-id="ed-48">ADME/DMPK</span></li>
-              <li><span data-editor-id="ed-49">In vivo efficacy models</span></li>
-              <li><span data-editor-id="ed-50">Toxicology and safety pharmacology</span></li>
-            </ul>
-          </article>
-          <article class="card mini">
-            <span class="tag"><span data-editor-id="ed-51">Provider Type</span></span>
-            <h3><span data-editor-id="ed-52">CRO/CDMO matching</span></h3>
-            <ul>
-              <li><span data-editor-id="ed-53">Specialized biology CROs</span></li>
-              <li><span data-editor-id="ed-54">Medicinal chemistry CROs</span></li>
-              <li><span data-editor-id="ed-55">Preclinical in vivo CROs</span></li>
-              <li><span data-editor-id="ed-56">Analytical and bioanalytical labs</span></li>
-              <li><span data-editor-id="ed-57">Formulation, CMC, and CDMO partners</span></li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="wrap">
-        <div class="metrics">
-          <div class="card metric"><strong><span data-editor-id="ed-58">Library</span></strong><span class="small"><span data-editor-id="ed-59">Static discovery endpoints</span></span></div>
-          <div class="card metric"><strong><span data-editor-id="ed-60">API</span></strong><span class="small"><span data-editor-id="ed-61">Contract-first design</span></span></div>
-          <div class="card metric"><strong><span data-editor-id="ed-62">MCP</span></strong><span class="small"><span data-editor-id="ed-63">Agent tool surface</span></span></div>
-          <div class="card metric"><strong><span data-editor-id="ed-64">CRO/CDMO</span></strong><span class="small"><span data-editor-id="ed-65">Provider matching focus</span></span></div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="wrap">
-        <div class="card mini">
-          <span class="tag"><span data-editor-id="ed-66">Example Agent Task</span></span>
-          <div class="code"><span data-editor-id="ed-67">Find CROs for alpha-synuclein Parkinson's disease assays using SH-SY5Y cells, PFF seeding, neurite toxicity endpoints, and follow-on ADME/DMPK provider options for lead optimization.</span></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-<section>
-  <div class="wrap">
-    <h2><span data-editor-id="ed-68">Machine Readable Resources</span></h2>
-
-    <ul>
-      <li><a href="/openapi.json"><span data-editor-id="ed-69">OpenAPI Specification</span></a></li>
-      <li><a href="/mcp/tools.json"><span data-editor-id="ed-70">MCP Tools</span></a></li>
-      <li><a href="/mcp/manifest.json"><span data-editor-id="ed-71">MCP Manifest</span></a></li>
-      <li><a href="/agent.json"><span data-editor-id="ed-72">Agent Manifest</span></a></li>
-      <li><a href="/ai.txt"><span data-editor-id="ed-73">AI Instructions</span></a></li>
-    </ul>
   </div>
-</section>
-
-
-  <footer>
-    <div class="wrap"><span data-editor-id="ed-74">
-      © 2026 NuoliHealth · Agent-readable CRO/CDMO discovery and preclinical experimentation routing.
-    </span></div>
-  </footer>
-
-
-</body></html>
+</body>
+</html>

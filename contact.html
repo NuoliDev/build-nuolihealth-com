@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Nuoli</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #101010;
+      --panel-2: #0d0d0d;
+      --text: #f5f5f3;
+      --muted: #9a9a96;
+      --muted-2: #6f6f6b;
+      --line: #2a2a28;
+      --line-strong: #3a3a36;
+      --accent: #d9ff66;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .page {
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px),
+        var(--bg);
+      background-size: 48px 48px;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(10,10,10,.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .brand::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* TYPOGRAPHY */
+    .eyebrow,
+    .section-label,
+    .meta-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.2;
+      font-weight: 650;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      padding: 92px 0 72px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 44px;
+      align-items: start;
+    }
+
+    .hero-index {
+      padding-top: 10px;
+      color: var(--muted-2);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .12em;
+    }
+
+    .hero h1 {
+      margin: 16px 0 0;
+      max-width: 1000px;
+      font-size: clamp(46px, 7vw, 92px);
+      line-height: .94;
+      letter-spacing: -.055em;
+      font-weight: 560;
+    }
+
+    .hero-copy {
+      margin: 28px 0 0;
+      max-width: 760px;
+      color: #c9c9c5;
+      font-size: clamp(17px, 1.8vw, 22px);
+      line-height: 1.45;
+    }
+
+    /* GENERIC SECTION */
+    section {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-shell {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 44px;
+      padding: 72px 0;
+    }
+
+    .section-number {
+      color: var(--muted-2);
+      font-size: 12px;
+      letter-spacing: .12em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 28px;
+      align-items: end;
+    }
+
+    .section-head h2 {
+      margin: 8px 0 0;
+      font-size: clamp(30px, 4vw, 54px);
+      line-height: 1;
+      letter-spacing: -.04em;
+      font-weight: 560;
+    }
+
+    /* CONTACT */
+    .contact-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr);
+      border: 1px solid var(--line-strong);
+      background: rgba(16,16,16,.9);
+    }
+
+    .contact-intro,
+    .contact-details {
+      padding: 30px;
+    }
+
+    .contact-intro {
+      min-height: 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--line);
+    }
+
+    .contact-intro h3 {
+      margin: 0;
+      max-width: 540px;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1;
+      letter-spacing: -.04em;
+      font-weight: 560;
+    }
+
+    .contact-intro p {
+      margin: 18px 0 0;
+      max-width: 58ch;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .contact-next {
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .contact-next p:last-child {
+      color: var(--text);
+      margin-top: 8px;
+    }
+
+    .contact-details {
+      display: grid;
+      align-content: start;
+      gap: 0;
+    }
+
+    .detail-row {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .detail-row:first-child {
+      padding-top: 0;
+    }
+
+    .detail-row:last-child {
+      border-bottom: 0;
+    }
+
+    .detail-row strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-weight: 650;
+    }
+
+    .detail-row a,
+    .detail-row span {
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .detail-row a:hover {
+      color: var(--accent);
+    }
+
+    /* TEAM */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid var(--line-strong);
+      border-left: 1px solid var(--line-strong);
+    }
+
+    .team-card {
+      border-right: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+      background: rgba(13,13,13,.92);
+    }
+
+    .portrait-wrap {
+      position: relative;
+      background: #141414;
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+    }
+
+    .portrait-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 55%, rgba(0,0,0,.25));
+      pointer-events: none;
+    }
+
+    .team-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%) contrast(1.03);
+    }
+
+    .team-copy {
+      padding: 24px;
+    }
+
+    .team-copy h3 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.05;
+      letter-spacing: -.025em;
+      font-weight: 560;
+    }
+
+    .role {
+      margin: 7px 0 20px;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .bio-placeholder {
+      margin: 0;
+      color: #b9b9b4;
+      font-size: 14px;
+      line-height: 1.58;
+    }
+
+    .training-copy {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .training-copy p:last-child {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    /* PARTNERS */
+    .partner-card {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 40px;
+      align-items: center;
+      border: 1px solid var(--line-strong);
+      background: rgba(16,16,16,.9);
+      padding: 30px;
+    }
+
+    .partner-card h3 {
+      margin: 10px 0 0;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1;
+      letter-spacing: -.035em;
+      font-weight: 560;
+    }
+
+    .partner-copy {
+      margin: 18px 0 0;
+      max-width: 650px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .partner-logo {
+      border-left: 1px solid var(--line);
+      min-height: 160px;
+      padding-left: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .partner-logo img {
+      max-width: 260px;
+      max-height: 100px;
+      object-fit: contain;
+      filter: grayscale(100%) brightness(1.8);
+    }
+
+    footer {
+      padding: 30px 0 38px;
+      color: var(--muted-2);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        width: min(var(--max), calc(100% - 32px));
+      }
+
+      .hero-grid,
+      .section-shell {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .hero {
+        padding: 70px 0 52px;
+      }
+
+      .hero-index,
+      .section-number {
+        display: none;
+      }
+
+      .section-shell {
+        padding: 54px 0;
+      }
+
+      .contact-card,
+      .team-grid,
+      .partner-card {
+        grid-template-columns: 1fr;
+      }
+
+      .team-grid {
+        display: grid;
+      }
+
+      .contact-intro {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        min-height: 0;
+      }
+
+      .partner-logo {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+        padding: 28px 0 0;
+        min-height: 0;
+        justify-content: flex-start;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <nav class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="index.html">Nuoli</a>
+        <div class="nav-links">
+          <a href="#contact">Contact</a>
+          <a href="#team">Team</a>
+          <a href="#partners">Partners</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="container hero-grid">
+        <div class="hero-index">CONTACT / 2026</div>
+        <div>
+          <p class="eyebrow">Contact Nuoli</p>
+          <h1>Connecting AI to the physical economy</h1>
+          <p class="hero-copy">We work with investors, partners, providers, and builders interested in connecting AI to real-world capabilities and transactions.</p>
+        </div>
+      </div>
+    </header>
+
+    <section id="contact">
+      <div class="container section-shell">
+        <div class="section-number">01</div>
+        <div>
+          <div class="section-head">
+            <div>
+              <p class="section-label">Our Contact Information</p>
+              <h2>Let’s talk.</h2>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-intro">
+              <div>
+                <h3>Building infrastructure for the next generation of AI.</h3>
+                <p>We are excited about growing new opportunities for individual creators and businesses in the US to thrive and grow in this new frontier.</p>
+              </div>
+
+              <div class="contact-next">
+                <p class="meta-label">What next</p>
+                <p>Have questions? Reach out directly.</p>
+              </div>
+            </div>
+
+            <div class="contact-details">
+              <div class="detail-row">
+                <strong>Email</strong>
+                <a href="mailto:contact@nuoli.net">contact@nuoli.net</a>
+              </div>
+
+              <div class="detail-row">
+                <strong>Location</strong>
+                <span>Portland, OR</span>
+              </div>
+
+              <div class="detail-row">
+                <strong>Incubator</strong>
+                <span>Oregon Bioscience Incubator</span>
+              </div>
+
+              <div class="detail-row">
+                <strong>Web</strong>
+                <a href="https://www.nuoli.net">www.nuoli.net</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="team">
+      <div class="container section-shell">
+        <div class="section-number">02</div>
+        <div>
+          <div class="section-head">
+            <div>
+              <p class="section-label">The Team</p>
+              <h2>Built across science, software, and data.</h2>
+            </div>
+          </div>
+
+          <div class="team-grid">
+
+            <article class="team-card">
+              <div class="portrait-wrap">
+                <img src="images/benjamin-yu.jpg" alt="Benjamin Yu, MD PhD">
+              </div>
+              <div class="team-copy">
+                <h3>Benjamin Yu</h3>
+                <p class="role">Head of Platform</p>
+                <p class="bio-placeholder">Benjamin Yu, MD, PhD is a physician-scientist, technology executive, and entrepreneur who has helped build durable businesses from idea stage to multimillion-dollar scale. At companies including Interpreta and Humetrix, he worked alongside founders, engineers, clinicians, and operators on data-intensive products spanning population-scale machine learning, generative AI, mobile platforms, data architecture, algorithms, customer deployment, and company operations.</p>
+                <div class="training-copy">
+                  <p class="meta-label">Background</p>
+                  <p>Ben obtained his M.D., Ph.D. from Washington University in St. Louis. In his academic career, he developed cutting-edge research programs from the ground up at UC San Diego, secured funding from the Gates Foundation, NIH, CIRM, and others, helped build exceptional multidisciplinary teams, and led stem research programs from inception through execution.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="team-card">
+              <div class="portrait-wrap">
+                <img src="images/will-hail.jpg" alt="Will Hail">
+              </div>
+              <div class="team-copy">
+                <h3>Will Hail</h3>
+                <p class="role">Head of Software</p>
+                <p class="bio-placeholder">William Hail is a biomedical engineer and software developer who has worked with Nuoli to build the backend infrastructure, MCP suite, and tools supporting manufacturing, engineering design, and bioinformatics applications. His technical work spans CUDA and GPU-accelerated computing, 3D model mapping and simulation, backend systems, and computational workflows designed to support AI-driven products.</p>
+                <div class="training-copy">
+                  <p class="meta-label">Background</p>
+                  <p>Will is a graduate of the University of Miami. He also has experience in engineering, medical devices, and neurotechnology, including brain implants, neural interfaces and neuromodulation at the University of Miami and University of Minnesota.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="team-card">
+              <div class="portrait-wrap">
+                <img src="images/xiaoxuan-dang.jpg" alt="Xiaoxuan Dang">
+              </div>
+              <div class="team-copy">
+                <h3>Xiaoxuan Dang</h3>
+                <p class="role">Head of Data</p>
+                <p class="bio-placeholder">Xiaoxuan Dang is a data engineer with a background spanning biomedical research, bioengineering, and computer science. She is building the data foundation and infrastructure that supports the company’s AI-driven products. Prior to Nuoli, she worked at Amazon as a Data Engineering Intern on cloud-based data systems and data engineering technologies. Her technical interests include data engineering, machine learning, generative AI, and building reliable data systems that can turn complex information into useful products.</p>
+                <div class="training-copy">
+                  <p class="meta-label">Background</p>
+                  <p>Xiaoxuan also has had experience in conducting cancer research at the University of Michigan and holds a Master’s degree in Bioengineering and a Master of Computer and Information Technology from the University of Pennsylvania.</p>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="partners">
+      <div class="container section-shell">
+        <div class="section-number">03</div>
+        <div>
+          <div class="section-head">
+            <div>
+              <p class="section-label">Our Partners</p>
+              <h2>Part of the regional bioscience ecosystem.</h2>
+            </div>
+          </div>
+
+          <div class="partner-card">
+            <div>
+              <p class="meta-label">Partner / Incubator</p>
+              <h3>Oregon Bioscience Incubator</h3>
+              <p class="partner-copy">Nuoli is building from the Oregon Bioscience Incubator and is part of the region’s growing technology and bioscience ecosystem.</p>
+            </div>
+
+            <div class="partner-logo">
+              <img src="images/oregon-bioscience-incubator-logo.png" alt="Oregon Bioscience Incubator logo">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container footer-inner">
+        <span>© 2026 Nuoli Health Inc. All Rights Reserved.</span>
+        <span>Software infrastructure for AI</span>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
